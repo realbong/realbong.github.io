@@ -1,0 +1,66 @@
+<!doctype html><html lang=ko-kr><head><meta charset=utf-8><meta http-equiv=X-UA-Compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="SAP RFC 연동을 처음 보면 용어부터 헷갈린다.
+RFC라는 말은 많이 보이는데, 조금 더 들어가면 sRFC, aRFC, tRFC, qRFC, bgRFC 같은 이름이 나온다. 다 비슷하게 SAP와 외부 시스템이 함수를 호출하는 방식처럼 보이는데, 막상 각각의 차이를 설명하려고 하면 말이 잘 정리되지 않는다.
+나도 처음에는 단순히 이렇게만 이해했다.
+sRFC는 동기 aRFC는 비동기 tRFC는 트랜잭션 qRFC는 큐 bgRFC는 뭔가 더 최신 방식 틀린 말은 아닌데, 이렇게만 이해하면 실제 연동 방식을 고를 때 애매해진다. 중요한 건 이름보다 “이 연동에서 무엇을 보장해야 하는가”다.
+"><meta name=google-site-verification content="xD2UvBTOH6xxBi9MseahHz4Nt9u2vYZbgY2wVo7Bdyc"><title>SAP RFC 연동 방식에 대하여</title><link rel=canonical href=https://realbong.github.io/sap-rfc-methods/><link rel=alternate type=application/rss+xml title=RealBong href=https://realbong.github.io/feed.xml><meta property="og:type" content="website"><meta property="og:title" content="SAP RFC 연동 방식에 대하여"><meta property="og:description" content="SAP RFC 연동을 처음 보면 용어부터 헷갈린다.
+RFC라는 말은 많이 보이는데, 조금 더 들어가면 sRFC, aRFC, tRFC, qRFC, bgRFC 같은 이름이 나온다. 다 비슷하게 SAP와 외부 시스템이 함수를 호출하는 방식처럼 보이는데, 막상 각각의 차이를 설명하려고 하면 말이 잘 정리되지 않는다.
+나도 처음에는 단순히 이렇게만 이해했다.
+sRFC는 동기 aRFC는 비동기 tRFC는 트랜잭션 qRFC는 큐 bgRFC는 뭔가 더 최신 방식 틀린 말은 아닌데, 이렇게만 이해하면 실제 연동 방식을 고를 때 애매해진다. 중요한 건 이름보다 “이 연동에서 무엇을 보장해야 하는가”다.
+"><meta property="og:image" content="https://github.com/realbong.png"><meta property="og:url" content="https://realbong.github.io/sap-rfc-methods/"><meta name=twitter:card content="summary"><meta name=twitter:url content="https://realbong.github.io/sap-rfc-methods/"><meta name=twitter:title content="SAP RFC 연동 방식에 대하여"><meta name=twitter:description content="SAP RFC 연동을 처음 보면 용어부터 헷갈린다.
+RFC라는 말은 많이 보이는데, 조금 더 들어가면 sRFC, aRFC, tRFC, qRFC, bgRFC 같은 이름이 나온다. 다 비슷하게 SAP와 외부 시스템이 함수를 호출하는 방식처럼 보이는데, 막상 각각의 차이를 설명하려고 하면 말이 잘 정리되지 않는다.
+나도 처음에는 단순히 이렇게만 이해했다.
+sRFC는 동기 aRFC는 비동기 tRFC는 트랜잭션 qRFC는 큐 bgRFC는 뭔가 더 최신 방식 틀린 말은 아닌데, 이렇게만 이해하면 실제 연동 방식을 고를 때 애매해진다. 중요한 건 이름보다 “이 연동에서 무엇을 보장해야 하는가”다.
+"><link rel=apple-touch-icon href=https://github.com/realbong.png><meta name=theme-color content="#ffffff"><link rel=icon href=https://github.com/realbong.png><link rel="shortcut icon" type=image/x-icon href=https://github.com/realbong.png><link rel=stylesheet href=/css/main.de3fbe6d56d942c724553bd90800a4f7d4b0aa2d51eb5af918464fab1049377e8131c9fe69667c3cd8d568f4cdd60ea94a08195cdd0787a419d924a542afcf71.css integrity="sha512-3j++bVbZQsckVTvZCACk99Swqi1R61r5GEZPqxBJN36BMcn+aWZ8PNjVaPTN1g6pSggZXN0Hh6QZ2SSlQq/PcQ=="></head><body><header class=header><div><a class=site-title href=/>RealBong</a></div><div><a class=site-title-right href=/about/>me</a></div><div><a id=random-button class=site-title-right href=/posts/>random</a></div><div><a class=site-title-right href=/posts/>index</a></div></header><main class=page-content><div class=wrapper><div class=post><header class=post-header><h1 class=page-title><a href=/sap-rfc-methods/>SAP RFC 연동 방식에 대하여</a></h1><p class=title-summary>SAP RFC 연동 방식을 동기, 비동기, 트랜잭션, 큐 관점에서 정리한 글</p><div class=post-meta-row><ul class=tag-list><li class=post-tag><a href=/tags/sap/>#sap</a></li><li class=post-tag><a href=/tags/rfc/>#rfc</a></li><li class=post-tag><a href=/tags/spring/>#spring</a></li></ul><div class=history-button><p>created: 2026.06.11</p></div></div></header><article class=post-content><p>SAP RFC 연동을 처음 보면 용어부터 헷갈린다.</p><p>RFC라는 말은 많이 보이는데, 조금 더 들어가면 <code>sRFC</code>, <code>aRFC</code>, <code>tRFC</code>, <code>qRFC</code>, <code>bgRFC</code> 같은 이름이 나온다.
+다 비슷하게 SAP와 외부 시스템이 함수를 호출하는 방식처럼 보이는데, 막상 각각의 차이를 설명하려고 하면 말이 잘 정리되지 않는다.</p><p>나도 처음에는 단순히 이렇게만 이해했다.</p><ul><li><code>sRFC</code>는 동기</li><li><code>aRFC</code>는 비동기</li><li><code>tRFC</code>는 트랜잭션</li><li><code>qRFC</code>는 큐</li><li><code>bgRFC</code>는 뭔가 더 최신 방식</li></ul><p>틀린 말은 아닌데, 이렇게만 이해하면 실제 연동 방식을 고를 때 애매해진다.
+중요한 건 이름보다 “이 연동에서 무엇을 보장해야 하는가”다.</p><p>먼저 전체 차이를 간단히 놓고 보면 이렇다.</p><table><thead><tr><th>방식</th><th>호출 성격</th><th>재시도·중복</th><th>순서</th><th>핵심</th></tr></thead><tbody><tr><td><code>sRFC</code></td><td>동기</td><td>별도 설계 필요</td><td>해당 없음</td><td>호출 결과를 바로 받아야 할 때</td></tr><tr><td><code>aRFC</code></td><td>호출 후 제어권 반환</td><td>보장 약함</td><td>보장 약함</td><td>병렬 호출이나 대기 시간 감소가 필요할 때</td></tr><tr><td><code>tRFC</code></td><td>비동기 트랜잭션</td><td>TID 기준 중복 방지·재시도</td><td>여러 LUW 순서 미보장</td><td>요청이 사라지면 안 될 때</td></tr><tr><td><code>qRFC</code></td><td>큐 기반 비동기</td><td>tRFC 기반</td><td>큐 기준 보장</td><td>처리 순서가 중요할 때</td></tr><tr><td><code>bgRFC</code></td><td>background unit 기반</td><td>관리 기능 개선</td><td>모델에 따라 제어</td><td>tRFC/qRFC 후속 방식</td></tr></tbody></table><h2 id=spring에서-sap-rfc를-만나는-지점>Spring에서 SAP RFC를 만나는 지점</h2><p>Spring 애플리케이션에서 SAP를 연동하는 방법이 RFC만 있는 것은 아니다.
+SAP 쪽에서 OData나 REST 형태의 API를 제공한다면 일반적인 HTTP API처럼 호출하는 방식도 가능하다.</p><p>다만 이 글에서 보려는 것은 RFC 기반 연동이다.
+Java에서 SAP RFC를 호출할 때는 대표적으로 <code>SAP Java Connector</code>, 줄여서 <code>SAP JCo</code>를 사용해 SAP의 RFC Function Module을 호출한다.
+Spring이 SAP와 직접 대화한다기보다는, Spring 애플리케이션 안에서 이런 커넥터를 통해 SAP RFC를 호출하는 구조에 가깝다.</p><p>그래서 SAP 연동을 볼 때는 두 층을 나눠서 보는 편이 좋다.</p><ul><li>애플리케이션 구현 관점: JCo를 어떻게 설정하고 호출할 것인가</li><li>업무 연동 관점: sRFC, tRFC, qRFC, bgRFC 중 어떤 보장이 필요한가</li></ul><p>이 글에서 보는 것은 두 번째에 가깝다.
+즉 Spring에서 어떤 라이브러리를 쓰느냐보다, RFC 방식마다 어떤 흐름과 보장을 갖는지 정리해보려 한다.</p><h2 id=rfc는-결국-함수-호출이다>RFC는 결국 함수 호출이다</h2><p>RFC는 Remote Function Call의 약자다.
+말 그대로 멀리 있는 함수를 호출하는 방식이다.</p><p>SAP 안에 있는 Function Module을 외부 시스템이 호출할 수도 있고, 반대로 SAP가 외부 시스템 쪽으로 호출을 보낼 수도 있다.
+그래서 RFC를 이해할 때는 네트워크 통신이라는 관점보다, “업무 함수를 어디에서 실행하고 결과를 어떻게 받을 것인가”로 보는 편이 더 쉽다.</p><p>문제는 모든 업무가 같은 방식으로 호출되면 안 된다는 점이다.</p><p>어떤 업무는 호출 즉시 결과가 필요하다.
+어떤 업무는 지금 당장 결과가 없어도 된다.
+어떤 업무는 실패하면 반드시 다시 보내야 한다.
+어떤 업무는 순서가 틀어지면 안 된다.
+어떤 업무는 중복으로 실행되면 큰 문제가 된다.</p><p>이 차이 때문에 RFC 방식이 나뉜다.</p><h2 id=srfc-결과를-바로-받아야-할-때>sRFC: 결과를 바로 받아야 할 때</h2><p><code>sRFC</code>는 synchronous RFC다.
+가장 직관적인 방식이다.</p><p>호출자가 SAP 함수를 호출하고, SAP가 처리한 결과를 받을 때까지 기다린다.
+일반적인 API 호출과 비슷하게 생각하면 된다.</p><p>예를 들어 가격을 조회하거나, 재고를 확인하거나, 사용자가 화면에서 바로 결과를 봐야 하는 업무라면 동기 방식이 자연스럽다.
+호출한 쪽은 결과를 기다리고, 성공했는지 실패했는지 즉시 판단한다.</p><p>장점은 단순하다는 것이다.
+흐름을 추적하기 쉽고, 호출 결과를 바로 응답에 반영할 수 있다.</p><p>단점도 명확하다.
+SAP 응답이 느리면 호출한 쪽도 같이 느려진다.
+SAP가 일시적으로 장애가 나면 사용자 요청도 같이 실패하기 쉽다.</p><p>그래도 즉시 결과가 필요한 업무라면 sRFC가 기본값에 가깝다.
+비동기가 더 멋있어 보인다고 해서 무조건 비동기로 바꾸면 오히려 업무 흐름이 복잡해진다.</p><h2 id=arfc-기다리지-않고-병렬로-보낼-때>aRFC: 기다리지 않고 병렬로 보낼 때</h2><p><code>aRFC</code>는 asynchronous RFC다.
+호출을 보낸 뒤 제어권이 호출자에게 바로 돌아오는 방식이다.</p><p>여러 작업을 병렬로 던져야 하거나, 호출자가 SAP 처리를 끝까지 기다릴 필요가 없을 때 사용할 수 있다.
+동기 호출보다 대기 시간을 줄일 수 있다는 장점이 있다.</p><p>다만 aRFC를 “내구성 있는 비동기 처리”로 이해하면 곤란하다.
+<a href=https://help.sap.com/doc/saphelp_nw75/7.5.5/en-US/48/88068ad9134076e10000000a42189d/content.htm>SAP 문서</a>에서도 aRFC는 이름과 달리 완전한 비동기 통신으로 보기는 어렵다고 설명한다.
+호출 대상 서버는 요청을 받을 수 있어야 하고, 호출 데이터가 나중 재처리를 위해 데이터베이스에 안정적으로 쌓이는 방식도 아니다.</p><p>그래서 “결과를 안 기다려도 된다”는 이유만으로 aRFC를 선택하면 안 된다.
+실패했을 때 다시 보낼 것인지, 이미 처리된 요청이 중복으로 들어가면 어떻게 할 것인지까지 같이 봐야 한다.</p><h2 id=trfc-실패해도-한-번만-처리되어야-할-때>tRFC: 실패해도 한 번만 처리되어야 할 때</h2><p><code>tRFC</code>는 transactional RFC다.
+비동기 호출이지만 트랜잭션 성격을 가진다.</p><p>핵심은 TID(Transaction ID)다.
+SAP는 TID를 기준으로 이 요청이 이미 처리된 것인지, 다시 처리해야 하는 것인지 판단할 수 있다.
+그래서 네트워크 문제나 일시적인 장애가 있어도 나중에 재시도할 수 있고, 같은 요청이 중복 실행되는 것을 막는 데 도움이 된다.</p><p>이 방식은 “지금 바로 응답을 받을 필요는 없지만, 요청이 그냥 사라지면 안 되는 업무”에 어울린다.</p><p>예를 들어 어떤 전송 작업이 실패했다고 해서 그냥 사라지면 안 되는 경우가 있다.
+사용자는 다음 화면으로 넘어가도 되지만, 뒤에서는 SAP에 반드시 반영되어야 하는 데이터라면 단순 비동기보다 tRFC 쪽이 더 맞다.
+다만 여기서 말하는 “처리되어야 한다”는 것은 목적지가 영원히 죽어 있어도 무조건 성공한다는 뜻은 아니다.
+네트워크 오류나 일시적인 장애가 있으면 재시도하고, 같은 TID를 기준으로 중복 실행을 막는다는 의미에 가깝다.</p><p>또 하나 구분할 점이 있다.
+tRFC는 하나의 LUW(Logical Unit of Work) 안에 묶인 호출을 같은 트랜잭션 단위로 다룰 수 있지만, 여러 LUW가 애플리케이션이 의도한 순서대로 처리되는 것까지 보장하는 방식은 아니다.
+여러 요청이 반드시 들어온 순서대로 처리되어야 한다면 큐 개념이 필요해진다.</p><h2 id=qrfc-순서가-중요할-때>qRFC: 순서가 중요할 때</h2><p><code>qRFC</code>는 queued RFC다.
+이름 그대로 큐를 사용하는 RFC다.</p><p>tRFC에 큐 개념이 더해졌다고 보면 이해하기 쉽다.
+요청을 큐에 넣고, 정해진 순서대로 처리하게 만든다.</p><p>순서가 중요한 업무에서는 이 차이가 크다.
+예를 들어 생성, 변경, 취소 같은 이벤트가 섞여 들어오는데 처리 순서가 바뀌면 데이터가 이상해질 수 있다.
+취소가 먼저 처리되고 생성이 나중에 처리되는 식의 상황은 피해야 한다.</p><p>이럴 때 qRFC는 큐를 통해 순서를 제어한다.</p><p>대신 큐를 쓴다는 건 운영 포인트가 늘어난다는 뜻이기도 하다.
+연동하는 쪽에서 SAP 내부 큐를 직접 관리하는 것은 아니지만, 어떤 큐에서 지연이 생겼는지, 실패한 요청을 누가 어떤 기준으로 재처리할 것인지는 SAP 운영 쪽과 맞춰둬야 한다.
+순서 보장은 결국 운영 절차까지 같이 따라와야 한다.</p><h2 id=bgrfc-background-unit-기반의-후속-방식>bgRFC: background unit 기반의 후속 방식</h2><p><code>bgRFC</code>는 Background Remote Function Call이다.
+tRFC와 qRFC를 대체하고 개선하는 후속 방식으로 소개된다.</p><p>처음 들으면 이름이 낯설다.
+나도 <code>sRFC</code>, <code>aRFC</code>, <code>tRFC</code>, <code>qRFC</code>까지는 자주 봤는데 <code>bgRFC</code>는 상대적으로 덜 익숙했다.</p><p>bgRFC의 핵심은 background unit이다.
+기존 tRFC가 TID 중심으로 트랜잭션을 다룬다면, bgRFC는 하나 이상의 호출을 background unit 단위로 다루고 그 실행 상태를 관리한다.</p><p>이 방식은 비동기 연동에서 필요한 것들을 더 체계적으로 다룬다.</p><ul><li>실패한 작업 재시도</li><li>중복 실행 방지</li><li>처리 상태 관리</li><li>큐 기반 순서 제어</li><li>대량 비동기 처리</li></ul><p>즉 bgRFC는 “더 빠른 비동기 호출”이라기보다, 비동기 트랜잭션 처리를 SAP 쪽에서 더 안정적으로 관리하기 위한 방식에 가깝다.</p><p>그렇다고 bgRFC가 항상 정답이라는 뜻은 아니다.
+대체와 개선이라는 표현 때문에 “그러면 이제 bgRFC만 쓰면 되는 것 아닌가”라고 생각하기 쉬운데, 연동 방식은 최신 여부보다 업무가 요구하는 보장에 맞춰 골라야 한다.</p><p>즉시 결과가 필요한 조회성 업무라면 여전히 sRFC가 자연스럽다.
+반대로 장애가 나도 나중에 다시 처리해야 하고, 중복과 순서까지 신경 써야 하는 업무라면 bgRFC를 검토할 수 있다.</p><h2 id=그래서-어떤-방식을-골라야-할까>그래서 어떤 방식을 골라야 할까</h2><p>RFC 방식을 고를 때는 이름보다 질문이 먼저다.</p><p>먼저 호출한 쪽이 결과를 바로 받아야 하는지 봐야 한다.
+바로 받아야 한다면 sRFC가 기본이다.
+사용자가 화면에서 결과를 기다리고 있다면 비동기로 바꾸는 순간 상태 관리가 훨씬 복잡해진다.</p><p>다음은 실패했을 때 요청이 사라져도 되는지다.
+사라지면 안 된다면 단순 비동기만으로는 부족하다.
+재시도와 중복 방지 기준이 필요하다.
+이때 tRFC나 bgRFC 같은 트랜잭션 성격의 방식이 후보가 된다.</p><p>그다음은 순서다.
+순서가 바뀌어도 되는 업무라면 큐가 필요 없을 수 있다.
+하지만 순서가 바뀌면 데이터 정합성이 깨지는 업무라면 qRFC나 bgRFC의 큐 처리를 봐야 한다.</p><p>마지막으로 운영이다.
+비동기와 큐는 사용자 요청을 빠르게 끝내는 데 도움을 주지만, 대신 뒤에서 밀린 작업을 봐야 한다.
+어디에서 상태를 확인할지, 실패한 요청을 누가 재처리할지, 중복과 장애를 어떤 기준으로 볼지까지 맞춰두지 않으면 문제가 나중에 더 복잡하게 돌아온다.</p><h2 id=정리>정리</h2><p>SAP RFC 방식은 단순히 동기냐 비동기냐로 끝나지 않는다.</p><p>각 방식은 서로 다른 질문에 답한다.</p><ul><li><code>sRFC</code>: 지금 결과가 필요한가</li><li><code>aRFC</code>: 호출자를 기다리게 하지 않아도 되는가</li><li><code>tRFC</code>: 실패해도 재시도하고 중복 실행을 피해야 하는가</li><li><code>qRFC</code>: 처리 순서가 중요한가</li><li><code>bgRFC</code>: 비동기 트랜잭션을 background unit으로 안정적으로 관리해야 하는가</li></ul><p>결국 좋은 선택은 최신 방식을 고르는 게 아니라, 업무가 요구하는 보장을 정확히 고르는 것이다.
+RFC 방식은 이름을 외우는 것보다 실패, 재처리, 중복, 순서를 기준으로 보면 훨씬 이해하기 쉽다.</p></article><script src=https://giscus.app/client.js data-repo=angrybong/angrybong.github.io data-repo-id=R_kgDOSoCfPw data-category=General data-category-id=DIC_kwDOSoCfP84C99AD data-mapping=pathname data-strict=0 data-reactions-enabled=1 data-emit-metadata=0 data-input-position=bottom data-theme=light data-lang=ko crossorigin=anonymous async></script></div></div></main><footer class=footer>© 2026 RealBong</footer></body></html>
