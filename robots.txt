@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://realbong.github.io/sitemap-pages.xml
+Sitemap: https://realbong.github.io/sitemap.xml
