@@ -146,6 +146,24 @@
 }
 
 @media screen and (max-width: 37.4em) {
+  footer {
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+  }
+
+  .footer-social {
+    display: flex;
+    flex: 0 0 auto;
+  }
+
+  .footer-info {
+    white-space: nowrap;
+  }
+
+  .footer-credits {
+    display: none;
+  }
+
   .post-content > .title h1 {
     font-size: 1.35rem;
   }
