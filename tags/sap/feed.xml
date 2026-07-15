@@ -1,13 +1,22 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Sap on RealBong</title><link>https://realbong.github.io/tags/sap/</link><description>Recent content in Sap on RealBong</description><generator>Hugo</generator><language>ko-kr</language><managingEditor>iamrealbong@gmail.com (RealBong)</managingEditor><webMaster>iamrealbong@gmail.com (RealBong)</webMaster><lastBuildDate>Thu, 11 Jun 2026 00:00:00 +0000</lastBuildDate><atom:link href="https://realbong.github.io/tags/sap/feed.xml" rel="self" type="application/rss+xml"/><item><title>SAP RFC 연동 방식에 대하여</title><link>https://realbong.github.io/sap-rfc-methods/</link><pubDate>Thu, 11 Jun 2026 00:00:00 +0000</pubDate><author>iamrealbong@gmail.com (RealBong)</author><guid>https://realbong.github.io/sap-rfc-methods/</guid><description>&lt;p&gt;SAP RFC 연동을 처음 보면 용어부터 헷갈린다.&lt;/p&gt;
-&lt;p&gt;RFC라는 말은 많이 보이는데, 조금 더 들어가면 &lt;code&gt;sRFC&lt;/code&gt;, &lt;code&gt;aRFC&lt;/code&gt;, &lt;code&gt;tRFC&lt;/code&gt;, &lt;code&gt;qRFC&lt;/code&gt;, &lt;code&gt;bgRFC&lt;/code&gt; 같은 이름이 나온다.
-다 비슷하게 SAP와 외부 시스템이 함수를 호출하는 방식처럼 보이는데, 막상 각각의 차이를 설명하려고 하면 말이 잘 정리되지 않는다.&lt;/p&gt;
-&lt;p&gt;나도 처음에는 단순히 이렇게만 이해했다.&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;&lt;code&gt;sRFC&lt;/code&gt;는 동기&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;aRFC&lt;/code&gt;는 비동기&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;tRFC&lt;/code&gt;는 트랜잭션&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;qRFC&lt;/code&gt;는 큐&lt;/li&gt;
-&lt;li&gt;&lt;code&gt;bgRFC&lt;/code&gt;는 뭔가 더 최신 방식&lt;/li&gt;
-&lt;/ul&gt;
-&lt;p&gt;틀린 말은 아닌데, 이렇게만 이해하면 실제 연동 방식을 고를 때 애매해진다.
-중요한 건 이름보다 “이 연동에서 무엇을 보장해야 하는가”다.&lt;/p&gt;</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Sap on 진짜봉</title>
+    <link>https://realbong.github.io/tags/sap/</link>
+    <description>Recent content in Sap on 진짜봉</description>
+    <generator>Hugo</generator>
+    <language>ko-KR</language>
+    <managingEditor>iamrealbong@gmail.com (RealBong)</managingEditor>
+    <webMaster>iamrealbong@gmail.com (RealBong)</webMaster>
+    <copyright>© 진짜봉</copyright>
+    <lastBuildDate>Thu, 11 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://realbong.github.io/tags/sap/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>SAP RFC 연동 방식에 대하여</title>
+      <link>https://realbong.github.io/sap-rfc-methods/</link>
+      <pubDate>Thu, 11 Jun 2026 00:00:00 +0000</pubDate><author>iamrealbong@gmail.com (RealBong)</author>
+      <guid>https://realbong.github.io/sap-rfc-methods/</guid>
+      <description>&lt;p&gt;SAP RFC 연동을 처음 보면 용어부터 헷갈린다.&lt;/p&gt;&#xA;&lt;p&gt;RFC라는 말은 많이 보이는데, 조금 더 들어가면 &lt;code&gt;sRFC&lt;/code&gt;, &lt;code&gt;aRFC&lt;/code&gt;, &lt;code&gt;tRFC&lt;/code&gt;, &lt;code&gt;qRFC&lt;/code&gt;, &lt;code&gt;bgRFC&lt;/code&gt; 같은 이름이 나온다.&#xA;다 비슷하게 SAP와 외부 시스템이 함수를 호출하는 방식처럼 보이는데, 막상 각각의 차이를 설명하려고 하면 말이 잘 정리되지 않는다.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>
