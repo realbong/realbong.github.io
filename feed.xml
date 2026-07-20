@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>진짜봉</title>
+    <title>realbong</title>
     <link>https://realbong.github.io/</link>
     <description>실무와 스터디에서 얻은 내용을 깊이 있게 정리하는 개인 기술 블로그.</description>
     <generator>Hugo</generator>
     <language>ko-KR</language>
-    <managingEditor>iamrealbong@gmail.com (RealBong)</managingEditor>
-    <webMaster>iamrealbong@gmail.com (RealBong)</webMaster>
+    <managingEditor>iamrealbong@gmail.com (realbong)</managingEditor>
+    <webMaster>iamrealbong@gmail.com (realbong)</webMaster>
     
       <lastBuildDate>Thu, 11 Jun 2026 00:00:00 &#43;0000</lastBuildDate>
     
@@ -17,7 +17,7 @@
       <title>SAP RFC 연동 방식에 대하여</title>
       <link>https://realbong.github.io/sap-rfc-methods/</link>
       <pubDate>Thu, 11 Jun 2026 00:00:00 &#43;0000</pubDate>
-      <author>iamrealbong@gmail.com (RealBong)</author>
+      <author>iamrealbong@gmail.com (realbong)</author>
       <guid>https://realbong.github.io/sap-rfc-methods/</guid>
       <description>&lt;p&gt;SAP RFC 연동을 처음 보면 용어부터 헷갈린다.&lt;/p&gt;
 &lt;p&gt;RFC라는 말은 많이 보이는데, 조금 더 들어가면 &lt;code&gt;sRFC&lt;/code&gt;, &lt;code&gt;aRFC&lt;/code&gt;, &lt;code&gt;tRFC&lt;/code&gt;, &lt;code&gt;qRFC&lt;/code&gt;, &lt;code&gt;bgRFC&lt;/code&gt; 같은 이름이 나온다.
@@ -28,7 +28,7 @@
       <title>가벼운 터미널을 찾다가 Alacritty에 tmux를 붙였다</title>
       <link>https://realbong.github.io/alacritty-windows-wsl-tmux/</link>
       <pubDate>Mon, 08 Jun 2026 00:00:00 &#43;0000</pubDate>
-      <author>iamrealbong@gmail.com (RealBong)</author>
+      <author>iamrealbong@gmail.com (realbong)</author>
       <guid>https://realbong.github.io/alacritty-windows-wsl-tmux/</guid>
       <description>&lt;p&gt;WezTerm을 한동안 잘 쓰고 있었다. 기능도 많고 설정도 편했다. 문제는 성능이 좋지 않은 윈도우 노트북이었다. 가끔 CPU가 생각보다 높게 올라갔다. 터미널 하나 때문에 노트북이 버거워지면 계속 신경 쓰이게 된다. 그래서 다른 터미널을 찾다가 Alacritty를 알게 됐다.&lt;/p&gt;</description>
     </item>
@@ -37,7 +37,7 @@
       <title>Spring Batch 돌아가게만 말고, 흐름으로 이해하기</title>
       <link>https://realbong.github.io/spring-batch-deepdive/</link>
       <pubDate>Sun, 26 May 2024 00:00:00 &#43;0000</pubDate>
-      <author>iamrealbong@gmail.com (RealBong)</author>
+      <author>iamrealbong@gmail.com (realbong)</author>
       <guid>https://realbong.github.io/spring-batch-deepdive/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://realbong.github.io/images/Gemini_Generated_Image_v0ys7sv0ys7sv0ys_lowsize.png&#34;
   alt=&#34;책과 노트 사이에서 공부하는 거위 일러스트&#34; title=&#34;공부&#34; width=&#34;800&#34; height=&#34;436&#34;decoding=&#34;async&#34;&gt;

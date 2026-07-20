@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Batch on 진짜봉</title>
+    <title>Batch on realbong</title>
     <link>https://realbong.github.io/tags/batch/</link>
-    <description>Recent content in Batch on 진짜봉</description>
+    <description>Recent content in Batch on realbong</description>
     <generator>Hugo</generator>
     <language>ko-KR</language>
-    <managingEditor>iamrealbong@gmail.com (RealBong)</managingEditor>
-    <webMaster>iamrealbong@gmail.com (RealBong)</webMaster>
-    <copyright>© 진짜봉</copyright>
+    <managingEditor>iamrealbong@gmail.com (realbong)</managingEditor>
+    <webMaster>iamrealbong@gmail.com (realbong)</webMaster>
+    <copyright>© realbong</copyright>
     <lastBuildDate>Sun, 26 May 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://realbong.github.io/tags/batch/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Spring Batch 돌아가게만 말고, 흐름으로 이해하기</title>
       <link>https://realbong.github.io/spring-batch-deepdive/</link>
-      <pubDate>Sun, 26 May 2024 00:00:00 +0000</pubDate><author>iamrealbong@gmail.com (RealBong)</author>
+      <pubDate>Sun, 26 May 2024 00:00:00 +0000</pubDate><author>iamrealbong@gmail.com (realbong)</author>
       <guid>https://realbong.github.io/spring-batch-deepdive/</guid>
       <description>&lt;p&gt;&lt;img src=&#34;https://realbong.github.io/images/Gemini_Generated_Image_v0ys7sv0ys7sv0ys_lowsize.png&#34;&#xA;  alt=&#34;책과 노트 사이에서 공부하는 거위 일러스트&#34; title=&#34;공부&#34; width=&#34;800&#34; height=&#34;436&#34;decoding=&#34;async&#34;&gt;&#xA;&lt;/p&gt;&#xA;&lt;p&gt;Spring Batch를 충분히 이해하지 못한 채 실무에서 운영하다 보면 비슷한 느낌을 받는다.&lt;/p&gt;&#xA;&lt;p&gt;블로그나 공식 문서를 따라 &lt;code&gt;Job&lt;/code&gt;, &lt;code&gt;Step&lt;/code&gt;, &lt;code&gt;Chunk&lt;/code&gt;를 붙여서 일단 돌아가게는 만들 수 있다.&#xA;근데 막상 뭔가 이상해지면 왜 그런지 감이 안 온다.&lt;/p&gt;</description>
     </item>

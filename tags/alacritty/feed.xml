@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Alacritty on 진짜봉</title>
+    <title>Alacritty on realbong</title>
     <link>https://realbong.github.io/tags/alacritty/</link>
-    <description>Recent content in Alacritty on 진짜봉</description>
+    <description>Recent content in Alacritty on realbong</description>
     <generator>Hugo</generator>
     <language>ko-KR</language>
-    <managingEditor>iamrealbong@gmail.com (RealBong)</managingEditor>
-    <webMaster>iamrealbong@gmail.com (RealBong)</webMaster>
-    <copyright>© 진짜봉</copyright>
+    <managingEditor>iamrealbong@gmail.com (realbong)</managingEditor>
+    <webMaster>iamrealbong@gmail.com (realbong)</webMaster>
+    <copyright>© realbong</copyright>
     <lastBuildDate>Mon, 08 Jun 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://realbong.github.io/tags/alacritty/feed.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>가벼운 터미널을 찾다가 Alacritty에 tmux를 붙였다</title>
       <link>https://realbong.github.io/alacritty-windows-wsl-tmux/</link>
-      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate><author>iamrealbong@gmail.com (RealBong)</author>
+      <pubDate>Mon, 08 Jun 2026 00:00:00 +0000</pubDate><author>iamrealbong@gmail.com (realbong)</author>
       <guid>https://realbong.github.io/alacritty-windows-wsl-tmux/</guid>
       <description>&lt;p&gt;WezTerm을 한동안 잘 쓰고 있었다. 기능도 많고 설정도 편했다. 문제는 성능이 좋지 않은 윈도우 노트북이었다. 가끔 CPU가 생각보다 높게 올라갔다. 터미널 하나 때문에 노트북이 버거워지면 계속 신경 쓰이게 된다. 그래서 다른 터미널을 찾다가 Alacritty를 알게 됐다.&lt;/p&gt;</description>
     </item>
