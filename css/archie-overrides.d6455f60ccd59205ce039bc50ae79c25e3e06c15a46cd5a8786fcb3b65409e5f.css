@@ -77,6 +77,20 @@
   content: "-";
 }
 
+.toc #TableOfContents a:hover,
+.toc #TableOfContents a:focus,
+.mobile-toc nav a:hover,
+.mobile-toc nav a:focus {
+  background: transparent;
+  color: var(--color-primary, #dc143c);
+  outline: none;
+}
+
+.toc #TableOfContents a:focus-visible,
+.mobile-toc nav a:focus-visible {
+  font-weight: 600;
+}
+
 .toc #TableOfContents a.is-active {
   color: var(--color-primary, #dc143c);
   font-weight: 600;
@@ -84,6 +98,12 @@
 
 .mobile-toc {
   display: none;
+}
+
+.toc,
+.mobile-toc {
+  font-size: 0.875rem;
+  line-height: 1.5;
 }
 
 .post-content > .title h1 {
