@@ -127,6 +127,11 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.footer-social {
+  display: flex;
+  flex: 0 0 auto;
+}
+
 @media screen and (min-width: 60em) and (max-width: 86.99em) {
   .post-container:has(.toc) {
     grid-template-columns: minmax(0, 1fr);
@@ -169,11 +174,6 @@
   footer {
     flex-wrap: nowrap;
     gap: 0.25rem;
-  }
-
-  .footer-social {
-    display: flex;
-    flex: 0 0 auto;
   }
 
   .footer-info {
