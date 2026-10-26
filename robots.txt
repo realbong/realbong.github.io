@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://realbong.github.io/sitemap.xml
+Sitemap: https://realbong-sitemap.iamrealbong.workers.dev/sitemap.xml
