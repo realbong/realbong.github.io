@@ -9,9 +9,18 @@
     <managingEditor>iamrealbong@gmail.com (realbong)</managingEditor>
     <webMaster>iamrealbong@gmail.com (realbong)</webMaster>
     
-      <lastBuildDate>Thu, 11 Jun 2026 00:00:00 &#43;0000</lastBuildDate>
+      <lastBuildDate>Sun, 11 Oct 2026 00:00:00 &#43;0000</lastBuildDate>
     
     <atom:link href="https://realbong.github.io/feed.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>통영 박가이드피싱 용초도 조행기 — 벵에돔은 왼쪽에서만 물었다</title>
+      <link>https://realbong.github.io/yongchodo-fishing/</link>
+      <pubDate>Sun, 11 Oct 2026 00:00:00 &#43;0000</pubDate>
+      <author>iamrealbong@gmail.com (realbong)</author>
+      <guid>https://realbong.github.io/yongchodo-fishing/</guid>
+      <description>통영 박가이드피싱을 이용한 용초도 출조. 편한 발판에서 학꽁치를 피해 벵에돔을 노렸던 날의 기록.</description>
+    </item>
     
     <item>
       <title>SAP RFC 연동 방식에 대하여</title>

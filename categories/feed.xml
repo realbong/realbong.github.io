@@ -7,8 +7,15 @@
     <generator>Hugo</generator>
     <language>ko-KR</language>
     <copyright>© realbong</copyright>
-    <lastBuildDate>Thu, 11 Jun 2026 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 18 Nov 2026 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://realbong.github.io/categories/feed.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>낚시</title>
+      <link>https://realbong.github.io/categories/%EB%82%9A%EC%8B%9C/</link>
+      <pubDate>Sun, 11 Oct 2026 00:00:00 +0000</pubDate>
+      <guid>https://realbong.github.io/categories/%EB%82%9A%EC%8B%9C/</guid>
+      <description></description>
+    </item>
     <item>
       <title>SAP</title>
       <link>https://realbong.github.io/categories/sap/</link>
