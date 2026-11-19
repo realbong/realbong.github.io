@@ -1,0 +1,151 @@
+<!DOCTYPE html><html lang="ko" data-astro-cid-ju4pidww><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v7.4.13"><title>Spring Batch에서 100개씩 읽는데 왜 뒤로 갈수록 느려질까? - 1993.zip</title><meta name="description" content="MyBatisPagingItemReader의 pageSize와 OFFSET을 따라가며 뒤쪽 페이지가 느려지는 이유와 키셋 페이징을 살펴본다."><link rel="canonical" href="https://realbong.github.io/spring-batch-offset-paging/"><link rel="alternate" type="application/rss+xml" title="1993.zip" href="/feed.xml"><meta property="og:title" content="Spring Batch에서 100개씩 읽는데 왜 뒤로 갈수록 느려질까? - 1993.zip"><meta property="og:description" content="MyBatisPagingItemReader의 pageSize와 OFFSET을 따라가며 뒤쪽 페이지가 느려지는 이유와 키셋 페이징을 살펴본다."><meta property="og:url" content="https://realbong.github.io/spring-batch-offset-paging/"><meta name="google-site-verification" content="2id3kDYo-5eelXNuV_n2_vOcuWS7MGGXiAT1kDEgpRk"><script type="application/ld+json">{"@context":"https://schema.org","@type":"BlogPosting","headline":"Spring Batch에서 100개씩 읽는데 왜 뒤로 갈수록 느려질까?","description":"MyBatisPagingItemReader의 pageSize와 OFFSET을 따라가며 뒤쪽 페이지가 느려지는 이유와 키셋 페이징을 살펴본다.","author":{"@type":"Person","name":"realbong"},"datePublished":"2024-06-02T00:00:00.000Z","dateModified":"2026-11-19T00:00:00.000Z","mainEntityOfPage":"https://realbong.github.io/spring-batch-offset-paging/","url":"https://realbong.github.io/spring-batch-offset-paging/"}</script><link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet"><script data-swup-ignore-script>
+      try { document.documentElement.dataset.theme = localStorage.getItem('theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'); } catch {}
+    </script><link rel="stylesheet" href="/_astro/Layout.BptBWRfo.css"><link rel="stylesheet" href="/_astro/_slug_.CbB8HS3O.css"><script type="module" src="/_astro/page.D8AU9QDA.js"></script></head><body data-astro-cid-ju4pidww><div class="container" data-astro-cid-ju4pidww><nav aria-label="주 메뉴" data-astro-cid-ju4pidww><a href="/" class="logo" data-astro-cid-ju4pidww>1993.zip</a><div class="nav-links" data-astro-cid-ju4pidww><a href="/" class data-astro-cid-ju4pidww>블로그</a><a href="/tags/" class data-astro-cid-ju4pidww>태그</a><a href="/about/" class data-astro-cid-ju4pidww>소개</a><button id="theme-toggle" class="theme-toggle" aria-label="다크 모드 토글" data-astro-cid-ju4pidww><svg class="theme-icon moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-astro-cid-ju4pidww><path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" data-astro-cid-ju4pidww></path></svg><svg class="theme-icon sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="display: none;" data-astro-cid-ju4pidww><path d="M12 12m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0" data-astro-cid-ju4pidww></path><path d="M3 12h1m8 -9v1m8 8h1m-9 8v1m-6.4 -15.4l.7 .7m12.1 -.7l-.7 .7m0 11.4l.7 .7m-12.1 -.7l-.7 .7" data-astro-cid-ju4pidww></path></svg></button></div></nav><main id="swup" data-astro-cid-ju4pidww><article class="blog-post" data-astro-cid-z7xolria><header class="post-header" data-astro-cid-z7xolria><h1 data-astro-cid-z7xolria>Spring Batch에서 100개씩 읽는데 왜 뒤로 갈수록 느려질까?</h1><div class="post-meta" data-astro-cid-z7xolria><span class="post-author" data-astro-cid-z7xolria>realbong</span><time datetime="2024-06-02T00:00:00.000Z" data-astro-cid-z7xolria>2024.06.02</time><span data-astro-cid-z7xolria>수정 <time datetime="2026-11-19T00:00:00.000Z" data-astro-cid-z7xolria>2026.11.19</time></span><div class="tags" data-astro-cid-z7xolria><span class="tag" data-astro-cid-z7xolria>spring-batch</span><span class="tag" data-astro-cid-z7xolria>mybatis</span><span class="tag" data-astro-cid-z7xolria>postgresql</span></div></div><p class="post-description" data-astro-cid-z7xolria>MyBatisPagingItemReader의 pageSize와 OFFSET을 따라가며 뒤쪽 페이지가 느려지는 이유와 키셋 페이징을 살펴본다.</p></header><aside class="table-of-contents" data-astro-cid-p33bl5ka><nav class="toc-nav" data-astro-cid-p33bl5ka><h3 class="toc-title" data-astro-cid-p33bl5ka>목차</h3><ul class="toc-list" data-astro-cid-p33bl5ka><li class="toc-item toc-level-2" data-astro-cid-p33bl5ka><a href="#reader에서-페이지-크기를-정했는데-매퍼에도-offset을-써야-할까" class="toc-link" data-heading-id="reader에서-페이지-크기를-정했는데-매퍼에도-offset을-써야-할까" data-astro-cid-p33bl5ka>Reader에서 페이지 크기를 정했는데 매퍼에도 OFFSET을 써야 할까?</a></li><li class="toc-item toc-level-2" data-astro-cid-p33bl5ka><a href="#첫-페이지를-읽고-나서-구멍찌-판매가-끝나면" class="toc-link" data-heading-id="첫-페이지를-읽고-나서-구멍찌-판매가-끝나면" data-astro-cid-p33bl5ka>첫 페이지를 읽고 나서 구멍찌 판매가 끝나면?</a></li><li class="toc-item toc-level-2" data-astro-cid-p33bl5ka><a href="#마지막-100개를-읽기까지" class="toc-link" data-heading-id="마지막-100개를-읽기까지" data-astro-cid-p33bl5ka>마지막 100개를 읽기까지</a></li><li class="toc-item toc-level-2" data-astro-cid-p33bl5ka><a href="#마치며" class="toc-link" data-heading-id="마치며" data-astro-cid-p33bl5ka>마치며</a></li><li class="toc-item toc-level-2" data-astro-cid-p33bl5ka><a href="#레퍼런스" class="toc-link" data-heading-id="레퍼런스" data-astro-cid-p33bl5ka>레퍼런스</a></li></ul></nav></aside><div class="post-content" data-astro-cid-z7xolria><p>낚시용품 쇼핑몰에서 매일 밤 가격비교 사이트에 상품 목록을 보낸다. Spring Batch로 판매 중인 상품을 ID 순서대로 100개씩 읽고, 상품명과 가격을 CSV 파일에 한 줄씩 쓴다. 오늘 보낼 상품은 10만 개다. 첫 100개는 금방 읽히는데 끝으로 갈수록 다음 100개를 기다리는 시간이 길어진다. 상품을 읽는 Reader에는 처음부터 끝까지 100개씩 가져오라고 했는데 왜 그럴까?</p>
+<p>쿼리를 눈으로 따라갈 수 있게 잠깐 두 개씩만 읽어 보자. 아래 다섯 상품 가운데 지금 팔고 있는 건 네 개다. 첫 두 개를 읽고 나면 다음 쿼리는 어디서부터 읽어야 할까?</p>
+<p>이럴 때 쓰는 게 오프셋(offset)이다. ID 순으로 줄을 세웠을 때 앞에서 몇 개를 건너뛸지 나타내는 값이다.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right">ID</th>
+<th>상품</th>
+<th style="text-align: right">가격</th>
+<th>상태</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right">101</td>
+<td>구멍찌 0호</td>
+<td style="text-align: right">8,000원</td>
+<td>판매 중</td>
+</tr>
+<tr>
+<td style="text-align: right">102</td>
+<td>낚시용 핀온릴</td>
+<td style="text-align: right">5,000원</td>
+<td>판매 종료</td>
+</tr>
+<tr>
+<td style="text-align: right">103</td>
+<td>카본 목줄 1.5호</td>
+<td style="text-align: right">12,000원</td>
+<td>판매 중</td>
+</tr>
+<tr>
+<td style="text-align: right">104</td>
+<td>접이식 두레박</td>
+<td style="text-align: right">9,000원</td>
+<td>판매 중</td>
+</tr>
+<tr>
+<td style="text-align: right">105</td>
+<td>바늘 빼기</td>
+<td style="text-align: right">3,000원</td>
+<td>판매 중</td>
+</tr>
+</tbody>
+</table>
+<p>판매가 끝난 핀온릴은 조회 대상에서 빠진다. 첫 조회는 구멍찌와 목줄을 가져온다. 다음 조회는 <code>LIMIT 2 OFFSET 2</code>다. 앞의 두 상품을 건너뛰고(<code>OFFSET 2</code>), 거기서 최대 두 개를 가져온다(<code>LIMIT 2</code>).</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span>           LIMIT 2 OFFSET 0                        LIMIT 2 OFFSET 2</span></span>
+<span class="line"><span></span></span>
+<span class="line"><span>           .----------------.                      .----------------.</span></span>
+<span class="line"><span>       .-'                    '-.              .-'                    '-.</span></span>
+<span class="line"><span>     .'         product          '.          .'         product          '.</span></span>
+<span class="line"><span>    (                              )        (                              )</span></span>
+<span class="line"><span>    |'-.                        .-'|        |'-.                        .-'|</span></span>
+<span class="line"><span>    |   '----------------------'   |        |   '----------------------'   |</span></span>
+<span class="line"><span>    |  Item            | ID        |        |  Item            | ID        |</span></span>
+<span class="line"><span>    |------------------+-----------|        |------------------+-----------|</span></span>
+<span class="line"><span>    |                  |           |        |##################|###########|</span></span>
+<span class="line"><span>    |  Float           |    101    |        |## Float #########|### 101 ###|</span></span>
+<span class="line"><span>    |  Line            |    103    |        |## Line ##########|### 103 ###|</span></span>
+<span class="line"><span>    |                  |           |        |##################|###########|</span></span>
+<span class="line"><span>    |------------------+-----------|        |------------------+-----------|</span></span>
+<span class="line"><span>    |##################|###########|        |                  |           |</span></span>
+<span class="line"><span>    |## Bucket ########|### 104 ###|        |  Bucket          |    104    |</span></span>
+<span class="line"><span>    |## Disgorger #####|### 105 ###|        |  Disgorger       |    105    |</span></span>
+<span class="line"><span>    |##################|###########|        |                  |           |</span></span>
+<span class="line"><span>    |'-.########################.-'|        |'-.                        .-'|</span></span>
+<span class="line"><span>    |:::'----------------------':::|        |:::'----------------------':::|</span></span>
+<span class="line"><span>     '.::::::::::::::::::::::::::.'          '.::::::::::::::::::::::::::.'</span></span>
+<span class="line"><span>       '-.____________________.-'              '-.____________________.-'</span></span></code></pre>
+<p><strong>밝은 두 행이 각 조회의 결과다.</strong></p>
+<h2 id="reader에서-페이지-크기를-정했는데-매퍼에도-offset을-써야-할까">Reader에서 페이지 크기를 정했는데 매퍼에도 OFFSET을 써야 할까?</h2>
+<p><code>MyBatisPagingItemReader</code>에 <code>pageSize=2</code>를 설정하면 첫 번째 <code>read()</code>에서 구멍찌와 목줄을 함께 조회한다. Step에 바로 돌려주는 건 구멍찌 하나다. 두 번째 호출에는 남겨 둔 목줄을 돌려주고, 세 번째 호출이 와야 다음 페이지를 조회한다.</p>
+<p>새 페이지를 읽을 때 Reader는 매퍼에 <code>_pagesize</code>와 <code>_skiprows</code>를 넘긴다. <code>_pagesize</code>는 한 번에 가져올 최대 개수라서 계속 2다. <code>_skiprows</code>는 건너뛸 개수라서 첫 페이지에서는 0, 두 번째 페이지에서는 2가 된다. 페이지 번호를 0부터 세므로 두 번째 페이지에서는 <code>1 × 2 = 2</code>다.</p>
+<p>PostgreSQL을 쓰는 매퍼라면 두 값을 아래 쿼리의 마지막 줄에 넣는다.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#F97583">SELECT</span><span style="color:#E1E4E8"> id, </span><span style="color:#F97583">name</span><span style="color:#E1E4E8">, price</span></span>
+<span class="line"><span style="color:#F97583">FROM</span><span style="color:#E1E4E8"> product</span></span>
+<span class="line"><span style="color:#F97583">WHERE</span><span style="color:#F97583"> status</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> 'ON_SALE'</span></span>
+<span class="line"><span style="color:#F97583">ORDER BY</span><span style="color:#E1E4E8"> id</span></span>
+<span class="line"><span style="color:#F97583">LIMIT</span><span style="color:#E1E4E8"> #{_pagesize} OFFSET #{_skiprows}</span></span></code></pre>
+<p>이 SQL에서 마지막 줄을 빼면 <code>pageSize</code>를 2로 설정했어도 첫 쿼리부터 판매 상품 전체를 조회한다. Reader가 시작 위치를 계산해 줘도 DB가 실제로 어디서부터 읽을지는 매퍼의 SQL이 정한다.</p>
+<p>네 상품을 읽는 흐름을 그리면 아래와 같다. 두 번째와 네 번째 호출에서는 화살표가 DB까지 가지 않는다.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="text"><code><span class="line"><span> Step              Reader                 MyBatis Mapper         DB</span></span>
+<span class="line"><span> |----- read() ---&gt;|                      |                      |</span></span>
+<span class="line"><span> |                 |---- _skiprows=0 ----&gt;|                      |</span></span>
+<span class="line"><span> |                 |                      |-- LIMIT 2 OFFSET 0 -&gt;|</span></span>
+<span class="line"><span> |                 |                      |&lt;---- [101, 103] -----|</span></span>
+<span class="line"><span> |                 |&lt;---- [101, 103] -----|                      |</span></span>
+<span class="line"><span> |&lt;----- 101 ------|                      |                      |</span></span>
+<span class="line"><span> |                 |                      |                      |</span></span>
+<span class="line"><span> |----- read() ---&gt;|                      |                      |</span></span>
+<span class="line"><span> |&lt;----- 103 ------|                      |                      |</span></span>
+<span class="line"><span> |                 |                      |                      |</span></span>
+<span class="line"><span> |----- read() ---&gt;|                      |                      |</span></span>
+<span class="line"><span> |                 |---- _skiprows=2 ----&gt;|                      |</span></span>
+<span class="line"><span> |                 |                      |-- LIMIT 2 OFFSET 2 -&gt;|</span></span>
+<span class="line"><span> |                 |                      |&lt;---- [104, 105] -----|</span></span>
+<span class="line"><span> |                 |&lt;---- [104, 105] -----|                      |</span></span>
+<span class="line"><span> |&lt;----- 104 ------|                      |                      |</span></span>
+<span class="line"><span> |                 |                      |                      |</span></span>
+<span class="line"><span> |----- read() ---&gt;|                      |                      |</span></span>
+<span class="line"><span> |&lt;----- 105 ------|                      |                      |</span></span></code></pre>
+<h2 id="첫-페이지를-읽고-나서-구멍찌-판매가-끝나면">첫 페이지를 읽고 나서 구멍찌 판매가 끝나면?</h2>
+<p>여기까지는 두 번 조회하는 동안 같은 상품 네 개가 보였다. 그런데 구멍찌와 목줄을 파일에 쓴 직후 구멍찌 판매가 끝나고, 그 변경이 다음 조회에 반영되면 어떻게 될까?</p>
+<table>
+<thead>
+<tr>
+<th>시점</th>
+<th>SQL이 보는 판매 중 상품(ID순)</th>
+<th>조회 결과</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>첫 조회 · OFFSET 0</td>
+<td>구멍찌, 목줄, 두레박, 바늘 빼기</td>
+<td>구멍찌, 목줄</td>
+</tr>
+<tr>
+<td>두 번째 조회 · OFFSET 2</td>
+<td>목줄, 두레박, 바늘 빼기</td>
+<td>바늘 빼기</td>
+</tr>
+</tbody>
+</table>
+<p>두 번째 조회도 앞에서 두 개를 건너뛴다. 그런데 이제 앞의 두 개는 목줄과 두레박이다. 두레박은 여전히 판매 중인데 CSV에는 실리지 않는다.</p>
+<h2 id="마지막-100개를-읽기까지">마지막 100개를 읽기까지</h2>
+<p>판매 상품이 밤새 하나도 바뀌지 않아도 뒤쪽 조회는 느려질 수 있다. 10만 개를 100개씩 읽는 배치에서 첫 100개와 마지막 100개를 가져오는 쿼리를 비교해 보자.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#6A737D">-- 첫 100개</span></span>
+<span class="line"><span style="color:#F97583">LIMIT</span><span style="color:#79B8FF"> 100</span><span style="color:#E1E4E8"> OFFSET </span><span style="color:#79B8FF">0</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#6A737D">-- 마지막 100개</span></span>
+<span class="line"><span style="color:#F97583">LIMIT</span><span style="color:#79B8FF"> 100</span><span style="color:#E1E4E8"> OFFSET </span><span style="color:#79B8FF">99900</span></span></code></pre>
+<p>Reader가 받는 건 어느 쪽이든 100개다. 그런데 마지막 100개를 가져오는 쿼리는 판매 상품을 ID 순서로 99,900개 건너뛴 다음에야 결과를 돌려준다. 앞 페이지들을 CSV에 다 써 뒀어도 DB는 이번 쿼리에서 그만큼을 다시 지나가야 한다.</p>
+<p>그래서 한 번에 읽는 양은 100개로 두고 다음 페이지를 찾는 방법을 바꿨다. 첫 100개는 전처럼 ID 순서로 읽는다. 기본 Reader가 넘겨주는 <code>_skiprows</code> 대신, 마지막 상품의 ID를 기억해 뒀다가 다음 조회 때 매퍼에 <code>lastId</code>로 전달하도록 읽기 로직을 바꿨다.</p>
+<pre class="astro-code github-dark" style="background-color:#24292e;color:#e1e4e8; overflow-x: auto;" tabindex="0" data-language="sql"><code><span class="line"><span style="color:#F97583">SELECT</span><span style="color:#E1E4E8"> id, </span><span style="color:#F97583">name</span><span style="color:#E1E4E8">, price</span></span>
+<span class="line"><span style="color:#F97583">FROM</span><span style="color:#E1E4E8"> product</span></span>
+<span class="line"><span style="color:#F97583">WHERE</span><span style="color:#F97583"> status</span><span style="color:#F97583"> =</span><span style="color:#9ECBFF"> 'ON_SALE'</span></span>
+<span class="line"><span style="color:#F97583">  AND</span><span style="color:#E1E4E8"> id </span><span style="color:#F97583">&gt;</span><span style="color:#E1E4E8"> #{lastId}</span></span>
+<span class="line"><span style="color:#F97583">ORDER BY</span><span style="color:#E1E4E8"> id</span></span>
+<span class="line"><span style="color:#F97583">LIMIT</span><span style="color:#79B8FF"> 100</span></span></code></pre>
+<p>이렇게 마지막으로 읽은 값을 다음 조회의 기준으로 삼는 방식을 키셋 페이징이라고 한다. 판매 상태와 ID 순서에 맞는 인덱스가 있으면 DB는 마지막 ID 다음부터 읽을 수 있다.</p>
+<h2 id="마치며">마치며</h2>
+<p>처음에는 한 번에 100개씩 읽으니 첫 페이지나 마지막 페이지나 DB가 하는 일도 비슷할 줄 알았다. 그런데 <code>pageSize</code>가 같아도 마지막 조회에는 <code>OFFSET 99900</code>이 붙었다. 100개씩 읽는 설정은 그대로 뒀다. 매퍼에 마지막 상품 ID를 넘기자, 뒤쪽 페이지에서도 앞에 몇 개가 있었는지 다시 셀 필요가 없어졌다.</p>
+<h2 id="레퍼런스">레퍼런스</h2>
+<ul>
+<li><a href="https://mybatis.org/spring/batch.html#MyBatisPagingItemReader">MyBatis-Spring 공식 문서</a></li>
+<li><a href="https://www.postgresql.org/docs/current/queries-limit.html">PostgreSQL의 LIMIT·OFFSET 설명</a></li>
+</ul>
+</div><!-- 댓글 섹션 --><section class="comments-section" data-astro-cid-nuen6n26><h2 data-astro-cid-nuen6n26>댓글</h2><div class="comments-container" data-comment-path="/spring-batch-offset-paging/" data-astro-cid-nuen6n26></div><noscript>댓글을 보려면 JavaScript를 켜 주세요.</noscript></section><footer class="post-footer" data-astro-cid-z7xolria><a href="/" class="back-link" data-astro-cid-z7xolria>← 블로그 목록으로 돌아가기</a></footer><!-- TOC 플로팅 --></article></main></div></body></html><script type="module">var e;function t(){e?.disconnect(),document.querySelectorAll(`nav[aria-label="주 메뉴"] a`).forEach(e=>{let t=e.pathname===location.pathname;e.classList.toggle(`active`,t),t?e.setAttribute(`aria-current`,`page`):e.removeAttribute(`aria-current`)});let t=[...document.querySelectorAll(`.toc-link`)];e=new IntersectionObserver(e=>{for(let n of e)n.isIntersecting&&t.forEach(e=>e.classList.toggle(`active`,e.dataset.headingId===n.target.id))},{rootMargin:`-15% 0px -65% 0px`}),document.querySelectorAll(`.post-content h1[id], .post-content h2[id], .post-content h3[id]`).forEach(t=>e?.observe(t));let n=document.querySelector(`[data-comment-path]`);if(n&&!n.querySelector(`script`)){let e=document.createElement(`script`);e.src=`https://giscus.app/client.js`,e.async=!0,e.crossOrigin=`anonymous`;let t={repo:`realbong/realbong.github.io`,"repo-id":`R_kgDOS4mkQg`,category:`General`,"category-id":`DIC_kwDOS4mkQs4C_BRy`,mapping:`pathname`,term:n.dataset.commentPath,strict:`0`,"reactions-enabled":`1`,"emit-metadata":`0`,"input-position":`bottom`,theme:document.documentElement.dataset.theme||`light`,lang:`ko`,loading:`lazy`};for(let[n,r]of Object.entries(t))e.setAttribute(`data-${n}`,r);n.append(e)}}document.addEventListener(`astro:before-swap`,()=>e?.disconnect()),document.addEventListener(`astro:page-load`,t),t(),document.getElementById(`theme-toggle`)?.addEventListener(`click`,()=>{let e=document.documentElement.dataset.theme===`dark`?`light`:`dark`;document.documentElement.dataset.theme=e;try{localStorage.setItem(`theme`,e)}catch{}document.querySelector(`iframe.giscus-frame`)?.contentWindow?.postMessage({giscus:{setConfig:{theme:e}}},`https://giscus.app`)}),window.addEventListener(`scroll`,()=>document.querySelector(`nav[aria-label="주 메뉴"]`)?.classList.toggle(`floating`,scrollY>20),{passive:!0});</script>
